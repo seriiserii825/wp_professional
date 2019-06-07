@@ -26,7 +26,13 @@ function wfm_related_posts($content){
 		$content .= '<div class="related-posts">';
 		while ( $related_posts->have_posts() ) {
 			$related_posts->the_post();
-			$content .= '<a href="'.get_the_permalink().'">'.get_the_title().'</a></br>';
+			if(has_post_thumbnail()) {
+				$img = get_the_post_thumbnail(get_the_ID(), ['w' => 100, 'h' => 100], ['alt' => get_the_title(), 'title' => get_the_title()]);
+			}else{
+				$img = '<img src="'.plugins_url('images/no_img.jpg', __FILE__).'" alt="'.get_the_title().'" title="'.get_the_title().'" />';
+			}
+
+			$content .= '<a href="'.get_the_permalink().'">'.$img.'</a></br>';
 		} // end while
 		$content .= '</div>';
 	} // end if
